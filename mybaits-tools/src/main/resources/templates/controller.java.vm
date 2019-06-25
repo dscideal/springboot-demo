@@ -1,0 +1,150 @@
+
+/**
+ * $!{table.comment} 前端控制器
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+
+@RestController
+@RequestMapping("/${serviceField}/locationSku")
+@Transactional
+public class ${entity}Controller {
+
+    @Autowired
+    private ${entity}Service skuService;
+
+    /**
+      * $!{table.comment} 新增
+      * @param req
+      * @return
+      */
+    @RequestMapping(value = "/add", method = {RequestMethod.POST})
+    @ResponseBody
+    public ResponseMessage ${entityField}Add(@RequestBody @Valid ${entity}AddReq req) {
+          //  ${entity}Model skuModel = ModeTransUtilLocationSku.locationSkuAdd(req);
+        this.skuService.${entityField}Add(skuModel);
+        return ResponseMessage.ok("ok");
+    }
+
+    /**
+     * $!{table.comment} 编辑
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "/edit", method = {RequestMethod.POST})
+    @ResponseBody
+    public ResponseMessage ${entityField}Edit(@RequestBody @Valid ${entity}EditReq req) {
+            //${entity}Model skuModel = ModeTransUtilLocationSku.locationSkuEdit(req);
+        this.skuService.${entityField}Edit(skuModel);
+        return ResponseMessage.ok("ok");
+    }
+
+
+    /**
+     * $!{table.comment} 删除
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "/delete", method = {RequestMethod.POST})
+    @ResponseBody
+    public ResponseMessage ${entityField}Delete(@RequestBody @Valid ${entity}EditReq req) {
+        Map param = new HashMap();
+        param.put("id", req.getId());
+        this.skuService.${entityField}Delete(param);
+        return ResponseMessage.ok("ok");
+    }
+
+    /**
+     * $!{table.comment} 查询详情
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "/query", method = {RequestMethod.POST})
+    @ResponseBody
+    public ResponseMessage ${entityField}Query(@RequestBody @Valid ${entity}EditReq req) {
+        Map param = new HashMap();
+        param.put("id", req.getId());
+            ${entity}Model skuModel = this.skuService.${entityField}Query(param);
+        return ResponseMessage.ok(skuModel);
+    }
+
+
+    /**
+     * $!{table.comment} 分页查询
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "/queryPageList", method = {RequestMethod.POST})
+    @ResponseBody
+    public ResponseMessage ${entityField}QueryPageList(@RequestBody @Valid ${entity}QueryPageListReq req) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        Map param = new HashMap();
+        param.put("pageNo", req.getPageNo());
+        param.put("pageSize", req.getPageSize());
+        param.put("searchKey", req.getSearchKey());
+        Page<${entity}Model> page = (Page<${entity}Model>) skuService.${entityField}QueryPageList(param);
+        PageModel pageModel = new PageModel();
+        pageModel.setResult(page.getResult());
+        pageModel.setPageSize(page.getPageSize());
+        pageModel.setTotalCount(page.getTotal());
+        pageModel.setPageNo(page.getPageNum());
+        responseMessage.setData(pageModel);
+        return responseMessage;
+    }
+    /**
+    * $!{table.comment} 修改单据状态
+    *
+    * @param req
+    * @return
+    */
+    @RequestMapping(value = "/changeStatus", method = {RequestMethod.POST})
+    @ResponseBody
+    public ResponseMessage ${entityField}ChangeStatus(@RequestBody @Valid ${entity}EditReq req) {
+        Map param = new HashMap();
+        param.put("status", req.getStatus());
+        param.put("seqNo", req.getSeqNo());
+        orderService.${entityField}ChangeStatus(param);
+        return ResponseMessage.ok("ok");
+    }
+
+    /**
+     * $!{table.comment} 修改审批状态 审批人 id
+     *
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "/changeApproveStatus", method = {RequestMethod.POST})
+    @ResponseBody
+    public ResponseMessage ${entityField}ChangeApproveStatus(@RequestBody @Valid ${entity}EditReq req) {
+        Map param = new HashMap();
+        SysUserModel sysUserModel = SysUserDataContextHolder.getSysUserData();
+        param.put("approveStatus", req.getApproveStatus());
+        param.put("seqNo", req.getSeqNo());
+        param.put("approveUserId", sysUserModel.getUid());
+        param.put("approveUserName", sysUserModel.getUsername());
+        param.put("approveTime", DateAndMillisUtil.nowTimeInMillis());
+        orderService.${entityField}ChangeApproveStatus(param);
+        return ResponseMessage.ok("ok");
+    }
+
+}
+###if(${restControllerStyle})
+##@RestController
+###else
+##@Controller
+###end
+##@RequestMapping("#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
+###if(${kotlin})
+##class ${table.controllerName}#if(${superControllerClass}) : ${superControllerClass}()#end
+##
+###else
+###if(${superControllerClass})
+##public class ${table.controllerName} extends ${superControllerClass} {
+###else
+##public class ${table.controllerName} {
+###end
+##
+##}
+##
+###end

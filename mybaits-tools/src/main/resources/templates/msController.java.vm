@@ -1,0 +1,122 @@
+
+/**
+ * $!{table.comment} 前端控制器
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+
+@RestController
+@RequestMapping("/portal/${serviceField}/returnBill")
+@Transactional
+public class ${entity}Controller {
+
+    @Autowired
+    private ${entity}Service skuService;
+
+    /**
+      * $!{table.comment} 新增
+      * @param req
+      * @return
+      */
+    @RequestMapping(value = "/add", method = {RequestMethod.POST})
+    @ResponseBody
+    public Result ${entityField}Add(@RequestBody @Valid ${entity}AddReq req) {
+        String json = JsonUtil.toJson(req);
+        return this.skuService.${entityField}Add(json);
+    }
+
+    /**
+     * $!{table.comment} 编辑
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "/edit", method = {RequestMethod.POST})
+    @ResponseBody
+    public Result ${entityField}Edit(@RequestBody @Valid ${entity}EditReq req) {
+        String json = JsonUtil.toJson(req);
+        return this.skuService.${entityField}Edit(json);
+    }
+
+
+    /**
+     * $!{table.comment} 删除
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "/delete", method = {RequestMethod.POST})
+    @ResponseBody
+    public Result ${entityField}Delete(@RequestBody @Valid ${entity}EditReq req) {
+        String json = JsonUtil.toJson(req);
+        return this.skuService.${entityField}Delete(json);
+    }
+
+    /**
+     * $!{table.comment} 查询详情
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "/query", method = {RequestMethod.POST})
+    @ResponseBody
+    public Result ${entityField}Query(@RequestBody @Valid ${entity}EditReq req) {
+        String json = JsonUtil.toJson(req);
+        return this.skuService.${entityField}Query(json);
+    }
+
+
+    /**
+     * $!{table.comment} 分页查询
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "/queryPageList", method = {RequestMethod.POST})
+    @ResponseBody
+    public Result ${entityField}QueryPageList(@RequestBody @Valid ${entity}QueryPageListReq req) {
+        String json = JsonUtil.toJson(req);
+        return this.skuService.${entityField}QueryPageList(json);
+    }
+
+    /**
+     *  $!{table.comment} 修改单据状态
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "/changeStatus", method = {RequestMethod.POST})
+    @ResponseBody
+    public Result ${entityField}ChangeStatus(@RequestBody @Valid ${entity}EditReq req) {
+        String json = JsonUtil.toJson(req);
+        return this.skuService.${entityField}ChangeStatus(json);
+    }
+
+    /**
+     *  $!{table.comment} 修改审批状态
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "/changeApproveStatus", method = {RequestMethod.POST})
+    @ResponseBody
+    public Result ${entityField}ChangeApproveStatus(@RequestBody @Valid ${entity}EditReq req) {
+        String json = JsonUtil.toJson(req);
+        return this.skuService.${entityField}ChangeApproveStatus(json);
+    }
+
+}
+###if(${restControllerStyle})
+##@RestController
+###else
+##@Controller
+###end
+##@RequestMapping("#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
+###if(${kotlin})
+##class ${table.controllerName}#if(${superControllerClass}) : ${superControllerClass}()#end
+##
+###else
+###if(${superControllerClass})
+##public class ${table.controllerName} extends ${superControllerClass} {
+###else
+##public class ${table.controllerName} {
+###end
+##
+##}
+##
+###end

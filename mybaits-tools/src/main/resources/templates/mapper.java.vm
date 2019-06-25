@@ -1,0 +1,59 @@
+##package ${package.Mapper};
+##
+/**
+ * $!{table.comment} Mapper 接口
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+###if(${kotlin})
+##interface ${table.mapperName} : ${superMapperClass}<${entity}>
+###else
+##public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
+public interface ${table.mapperName}{
+
+    /**
+     *  $!{table.comment} 新增
+     * @param
+     */
+    public void ${entityField}Add(${entity}Model skuModel);
+
+
+    /**
+     *  $!{table.comment} 编辑
+     * @param
+     */
+    public void ${entityField}Edit(${entity}Model skuModel);
+
+    /**
+     *  $!{table.comment} 删除
+     * @param \
+     */
+    public void ${entityField}Delete(Map map);
+
+    /**
+     *  $!{table.comment} 查询详情
+     * @param
+     */
+    public ${entity}Model ${entityField}Query(Map map);
+
+    /**
+     *  $!{table.comment} 分页查询
+     * @param
+     */
+    public List<${entity}Model> ${entityField}QueryPageList(Map map);
+
+    }
+
+    /**
+    *  $!{table.comment} 修改单据状态
+    * @param \
+    */
+    public void ${entityField}ChangeStatus(Map map);
+
+    /**
+     *  $!{table.comment} 修改审批状态
+     * @param \
+     */
+    public void ${entityField}ChangeApproveStatus(Map map);
+###end

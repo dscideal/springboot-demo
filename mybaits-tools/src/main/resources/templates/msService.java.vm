@@ -1,0 +1,75 @@
+
+/**
+ *  $!{table.comment} 服务类
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Service
+@Transactional
+public class ${table.serviceName} {
+
+    @Autowired
+    private RpcHttpRequestWapper rpcHttpRequestWapper;
+
+    @Autowired
+    private MicroServiceInterface${serviceFieldU} interface${serviceFieldU};
+
+
+    /**
+     * $!{table.comment} 新增
+     * @param skuModel
+     */
+    public Result ${entityField}Add(String json){
+        return this.rpcHttpRequestWapper.invoke${serviceFieldU}MicroService(this.interface${serviceFieldU}.get${entity}Add(), json);
+    }
+
+    /**
+     * $!{table.comment} 编辑
+     * @param skuModel
+     */
+    public Result ${entityField}Edit(String json){
+        return this.rpcHttpRequestWapper.invoke${serviceFieldU}MicroService(this.interface${serviceFieldU}.get${entity}Edit(), json);
+    }
+
+    /**
+     * $!{table.comment} 删除
+     * @param \
+     */
+    public Result ${entityField}Delete(String json){
+        return this.rpcHttpRequestWapper.invoke${serviceFieldU}MicroService(this.interface${serviceFieldU}.get${entity}Delete(), json);
+    }
+
+    /**
+     * $!{table.comment} 查询详情
+     * @param
+     */
+    public Result ${entityField}Query(String json){
+        return this.rpcHttpRequestWapper.invoke${serviceFieldU}MicroService(this.interface${serviceFieldU}.get${entity}Query(), json);
+    }
+
+    /**
+     * $!{table.comment} 分页查询
+     * @param
+     */
+    public Result ${entityField}QueryPageList(String json){
+        PageHelper.startPage((int)map.get("pageNo"), (int) map.get("pageSize"), true);
+        return this.rpcHttpRequestWapper.invoke${serviceFieldU}MicroService(this.interface${serviceFieldU}.get${entity}QueryPageList(), json);
+    }
+    /**
+     * $!{table.comment} 修改单据状态
+     * @param \
+     */
+    public Result ${entityField}ChangeStatus(String json){
+        return this.rpcHttpRequestWapper.invoke${serviceFieldU}MicroService(this.interface${serviceFieldU}.get${entity}ChangeStatus(), json);
+    }
+
+    /**
+     * $!{table.comment} 修改审批状态
+     * @param
+     */
+    public Result ${entityField}ChangeApproveStatus(String json){
+        return this.rpcHttpRequestWapper.invoke${serviceFieldU}MicroService(this.interface${serviceFieldU}.get${entity}ChangeApproveStatus(), json);
+    }
+
+}

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.migu.ngoc.service.${serviceField}.dao.${table.mapperName}>
+
+#if(${enableCache})
+    <!-- 开启二级缓存 -->
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+
+#end
+###if(${baseResultMap})
+##    <!-- 通用查询映射结果 -->
+##    <resultMap id="BaseResultMap" type="${package.Entity}.${entity}">
+###foreach($field in ${table.fields})
+###if(${field.keyFlag})##生成主键排在第一位
+##        <id column="${field.name}" property="${field.propertyName}" />
+###end
+###end
+###foreach($field in ${table.commonFields})##生成公共字段
+##    <result column="${field.name}" property="${field.propertyName}" />
+###end
+###foreach($field in ${table.fields})
+###if(!${field.keyFlag})##生成普通字段
+##        <result column="${field.name}" property="${field.propertyName}" />
+###end
+###end
+##    </resultMap>
+##
+###end
+#if(${baseColumnList})
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        <trim suffixOverrides=",">
+          #foreach($field in ${table.fields})
+            ${field.name} AS "${field.propertyName}",
+          #end
+        </trim>
+    </sql>
+    <!--$!{table.comment} 新增-->
+    <insert id="${entityField}Add" parameterType="com.migu.ngoc.model.${serviceField}.${entity}Model">
+        INSERT INTO ${table.name}
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        #foreach($field in ${table.fields})
+            #if("$!field.name" != "id")
+            <if test="${field.propertyName} != null">
+                ${field.name},
+            </if>
+            #end
+        #end
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        #foreach($field in ${table.fields})
+            #if("$!field.name" != "id")
+            <if test="${field.propertyName} != null">
+                #{${field.propertyName}},
+            </if>
+            #end
+        #end
+        </trim>
+    </insert>
+
+    <!--$!{table.comment} 编辑-->
+    <update id="${entityField}Edit" parameterType="com.migu.ngoc.model.${serviceField}.${entity}Model">
+        UPDATE ${table.name} SET
+        <trim suffixOverrides=",">
+        #foreach($field in ${table.fields})
+            #if("$!field.name" != "id")
+            <if test="${field.propertyName} != null">
+                ${field.name} = #{${field.propertyName}},
+            </if>
+            #end
+       #end
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <!--$!{table.comment} 删除-->
+    <update id="${entityField}Delete" parameterType="map">
+        delete  from ${table.name} where id = #{id}
+    </update>
+
+    <!--$!{table.comment} 查询详情-->
+    <select id="${entityField}Query" parameterType="map" resultType="com.migu.ngoc.model.${serviceField}.${entity}Model">
+        select
+        <include refid="Base_Column_List"/>
+        from  ${table.name}
+        where id = #{id}
+    </select>
+
+    <!--$!{table.comment} 查询分页-->
+    <select id="${entityField}QueryPageList" parameterType="map" resultType="com.migu.ngoc.model.${serviceField}.${entity}Model">
+        select
+        <include refid="Base_Column_List"/>
+        from ${table.name}
+        where 1=1
+        <if test="searchKey != null">
+            and storehouse_id like concat("%",#{searchKey},"%")
+            or storehouse_name like concat("%",#{searchKey},"%")
+        </if>
+    </select>
+
+        <!--$!{table.comment}修改单据状态-->
+    <update id="${entityField}ChangeStatus" parameterType="map">
+         update  ${table.name} set status = #{status} where id = #{id}
+    </update>
+
+        <!--$!{table.comment} 修改审批状态-->
+    <update id="${entityField}ChangeApproveStatus" parameterType="map">
+        update  ${table.name} set
+        approve_status = #{approveStatus} ,
+        approve_user_id = #{approveUserId},
+        approve_user_name = #{approveUserName},
+        approve_time = #{approveTime}
+        where id = #{id}
+    </update>
+
+
+
+
+#end
+</mapper>

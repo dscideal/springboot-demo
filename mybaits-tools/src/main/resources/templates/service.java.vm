@@ -1,0 +1,92 @@
+##package ${package.Service};
+##
+##import ${package.Entity}.${entity};
+##import ${superServiceClassPackage};
+##
+##/**
+## * $!{table.comment} 服务类
+## *
+## * @author ${author}
+## * @since ${date}
+## */
+###if(${kotlin})
+##interface ${table.serviceName} : ${superServiceClass}<${entity}>
+###else
+##@Service
+##public class ${table.serviceName}  {
+##
+##
+##}
+#####end
+
+/**
+ *  $!{table.comment} 服务类
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Service
+@Transactional
+public class ${table.serviceName} {
+
+    @Autowired
+    private ${entity}Mapper skuMapper;
+
+    /**
+     * $!{table.comment} 新增
+     * @param skuModel
+     */
+    public void ${entityField}Add(${entity}Model skuModel){
+        skuMapper.${entityField}Add(skuModel);
+    }
+
+    /**
+     * $!{table.comment} 编辑
+     * @param skuModel
+     */
+    public void ${entityField}Edit(${entity}Model skuModel){
+        skuMapper.${entityField}Edit(skuModel);
+    }
+
+    /**
+     * $!{table.comment} 删除
+     * @param \
+     */
+    public void ${entityField}Delete(Map map){
+        skuMapper.${entityField}Delete(map);
+    }
+
+    /**
+     * $!{table.comment} 查询详情
+     * @param
+     */
+    public ${entity}Model ${entityField}Query(Map map){
+        return skuMapper.${entityField}Query(map);
+    }
+
+    /**
+     * $!{table.comment} 分页查询
+     * @param
+     */
+    public List<${entity}Model> ${entityField}QueryPageList(Map map){
+        PageHelper.startPage((int)map.get("pageNo"), (int) map.get("pageSize"), true);
+        return skuMapper.${entityField}QueryPageList(map);
+    }
+
+    /**
+    *  $!{table.comment} 修改单据状态
+    *  @param \
+    */
+    public void ${entityField}ChangeStatus(Map map){
+        skuMapper.${entityField}ChangeStatus(map);
+    }
+
+    /**
+     *  $!{table.comment} 修改审批状态
+     * @param \
+     */
+    public void${entityField}ChangeApproveStatus(Map map){
+        skuMapper.${entityField}ChangeApproveStatus(map);
+    }
+
+}
